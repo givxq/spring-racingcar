@@ -2,17 +2,11 @@ package racingcar.domain;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -23,43 +17,32 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import lombok.Getter;
 
-@Entity
-@Getter
-@EntityListeners(AuditingEntityListener.class)
-@Table(name = "Cars")
-@IdClass(CarID.class)
-public class Car {
+// @Entity
+// @Getter
+// @EntityListeners(AuditingEntityListener.class)
+// @SequenceGenerator(name = "PLAY_RESULT_SEQ_GENERATOR", sequenceName = "PLAY_SEQ", initialValue = 1, allocationSize = 1)
+// @Table(name = "Cars", uniqueConstraints = {
+//         @UniqueConstraint(name = "ID_NAME_UNIQUE", columnNames = { "ID", "NAME" })
+// })
+public class PlayHistory {
     // @Id
-    // @JoinColumn(name = "id")
-    // private long id;
+    // @GeneratedValue(strategy = GenerationType.SEQUENCE, generator =
+    // "PLAY_RESULT_SEQ_GENERATOR")
+    private long id;
 
-    @Id
     private String name;
-
-    @MapsId
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", referencedColumnName = "id")
-    private PlayResult playResult;
 
     private int position;
 
-    @CreatedDate
-    @LastModifiedDate
+    // @CreatedDate
+    // @LastModifiedDate
     private LocalDateTime createAt;
 
-    public Car() {
+    public PlayHistory() {
     }
 
-    public Car(String name) {
+    public PlayHistory(String name) {
         this.name = name;
-    }
-
-    // public void setId(long id) {
-    // this.id = id;
-    // }
-
-    public void setPlayResult(PlayResult playResult) {
-        this.playResult = playResult;
     }
 
     public void setName(String name) {

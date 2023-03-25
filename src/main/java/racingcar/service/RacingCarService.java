@@ -29,12 +29,21 @@ public class RacingCarService {
 
         List<Car> cars = makeCars(RacingCarUtils.stringToList(racingRequest.getNames()));
         moveCars(cars, racingRequest.getCount());
-        cars.forEach(car -> carRepository.save(car));
 
-        playResultRepository.save(PlayResult.builder()
+        PlayResult result = PlayResult.builder()
                 .winners(getWinnerNames(cars))
-                .build());
+                .build();
+        playResultRepository.save(result);
+
+        cars.forEach(car -> {
+            car.setPlayResult(result);
+            carRepository.save(car);
+        });
         return new RacingResponse(getWinnerNames(cars), cars);
+    }
+
+    public List<PlayResult> getRacingHistories() {
+        return playResultRepository.findAll();
     }
 
     public void startRacing(List<String> carNames, int targetDistance) {
